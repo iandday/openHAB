@@ -1,0 +1,127 @@
+import org.openhab.core.library.types.*
+import org.openhab.core.persistence.*
+import org.openhab.model.script.actions.*
+//harmony
+import org.openhab.action.harmonyhub.*
+
+import java.util.concurrent.locks.ReentrantLock
+
+
+// Start Alarm Clock
+var Timer timer1 = null
+var java.util.concurrent.locks.ReentrantLock lock1 = new java.util.concurrent.locks.ReentrantLock()
+
+rule "Initialization"
+ when 
+   System started
+ then
+     postUpdate(alarmSecond,  5)
+     postUpdate(alarmMinutes, 00)
+     postUpdate(alarmMonday,     ON)
+     postUpdate(alarmTuesday,   ON)
+     postUpdate(alarmWednesday,   ON)
+     postUpdate(alarmThursday, ON)
+     postUpdate(alarmFriday,    ON)
+     postUpdate(alarmSaturday,    OFF)
+     postUpdate(alarmSunday,    OFF)
+ end
+
+rule "Alarm"
+when
+    Item alarmSecond changed or 
+    Item alarmMinutes changed
+then
+  lock1.lock()
+  try {
+
+  var String msg = ""
+  var hour = alarmSecond.state as DecimalType
+  var minute = alarmMinutes.state as DecimalType
+
+  if (hour < 10) { msg = "0" } 
+  msg = msg + alarmSecond.state.format("%d") + ":"
+
+  if (minute < 10) { msg = msg + "0" }
+  msg = msg + alarmMinutes.state.format("%d")
+  postUpdate(alarmTimeMessage,msg)
+
+  var int alarm1
+  alarm1 = (alarmSecond.state as DecimalType).intValue * 60 + 
+              (alarmMinutes.state as DecimalType).intValue
+  alarm1 = alarm1.intValue
+
+  var int now1
+  now1 = now.getMinuteOfDay
+  now1 = now1.intValue
+
+  var int delta1
+  if (timer1 != null) {
+    timer1.cancel
+    timer1 = null
+  }
+
+  delta1 = (alarm1 - now1)
+  delta1 = delta1.intValue
+
+  if (now1 > alarm1) { delta1 = delta1 + 1440 }
+
+  timer1 = createTimer(now.plusMinutes(delta1)) [|
+    var Number day = now.getDayOfWeek
+    if (((day == 1) && (alarmMonday.state == ON))     ||
+        ((day == 2) && (alarmTuesday.state == ON))   ||
+        ((day == 3) && (alarmWednesday.state == ON))   ||
+        ((day == 4) && (alarmThursday.state == ON)) ||
+        ((day == 5) && (alarmFriday.state == ON))    ||
+        ((day == 6) && (alarmSaturday.state == ON))    ||
+        ((day == 7) && (alarmSunday.state == ON))) 
+       
+		{
+			//0500
+			//Bedroom Light
+			sendCommand(Hue_Toggle_2, ON)
+			sendCommand(Hue_Dimm_2, 50)
+			//Garage Entrance Light
+			sendCommand(Hue_Toggle_1, ON)
+			sendCommand(Hue_Dimm_1, 100)
+
+			createTimer(now.plusMinutes(20)) [|
+    		//0520
+    		sendCommand(Hue_Toggle_2, OFF)
+    		sendCommand(Hue_Toggle_1, OFF)
+    			]
+
+			createTimer(now.plusMinutes(105)) [|sendCommand(kodiBedRoomTv_PVR, "WTTEDT (WTTE-DT)")] //0645
+			createTimer(now.plusMinutes(150)) [|sendCommand(kodiBedRoomTv_Stop,"")	] //0730
+			createTimer(now.plusMinutes(195)) [|sendCommand(kodiBedRoomTv_Stop,"") sendCommand(gLights, OFF)]
+        }
+       timer1.reschedule(now.plusHours(24))
+     ]
+     }
+   finally  {
+     lock1.unlock()
+  }
+end
+//End Alarm Clock
+
+//Kodi Start
+rule "BedroomOff"
+when
+    Item kodiBedRoomTv changed to OFF
+then
+    sendCommand(kodiBedRoomTv_Stop,"")
+end
+
+rule "BedroomNews"
+when
+    Item kodiBedRoomTv changed to ON
+then
+    sendCommand(kodiBedRoomTv_PVR, "WTTEDT (WTTE-DT)")
+end
+
+//rule "HarmonyTest"
+//when 
+	//Item ActivateBedRoomTv changed to ON
+//then
+	//sendCommand(harmonyStartActivity(BedroomTV)
+//end
+

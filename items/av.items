@@ -1,0 +1,15 @@
+//Kodi - Bedroom
+Switch    kodiBedRoomTv            "Bedroom TV - Fox HD"  <television> (gBedroom)
+String    kodiBedRoomTv_Stop       "Stop [%s]"                { xbmc=">[#bedroom|Player.Stop]" }
+String    kodiBedRoomTv_PVR        "Tune to Channel [%s]"     { xbmc=">[#bedroom|PVR.OpenTV]" }
+String    kodiBedRoomTv_State      "Bedroom State [%s]"       { xbmc="<[#bedroom|Player.State]" }
+String    kodiBedRoomTv_Title      "Bedroom Title [%s]"       { xbmc="<[#bedroom|Player.Title]" }
+Switch    kodiBedRoomTv_PlayPause  "Bedroom Play/Pause"       { xbmc=">[#bedroom|Player.PlayPause]", autoupdate="false" }
+Switch    kodiBedRoomTv_Stop1      "Bedroom Stop"             { xbmc=">[#bedroom|Player.Stop]", autoupdate="false" }
+String    kodiBedRoomTv_Notify     "Bedroom Notify [%s]"      { xbmc="<[#bedroom|GUI.ShowNotification]", autoupdate="false" }
+
+
+Switch    ActivateBedRoomTv "Power On TV"  <television> { harmonyhub=">[start:BedroomTV]" }
+String    ActivateStringBedRoomTv    "Start" { harmonyhub=">[start:BedroomTV]" }
+String Harmony_Activity         "activity [%s]" { harmonyhub="*[currentActivity]" } 
+

@@ -1,0 +1,36 @@
+Group gAll
+Group gGF (gAll)
+Group gSF (gAll)
+
+
+
+//Ground Floor Groups
+Group gGF_Hallway "Ground Floor Hallway" <corridor> (gGF)
+Group gFamilyRoom "Family Room" <sofa> (gGF)
+Group gLaundryRoom "Laundry Room" <water> (gGF)
+
+//Second Floor Groups
+Group gLivingRoom "Living Room" <sofa> (gSF)
+Group gBedroom "Bedroom" <bedroom> (gSF)
+Group gOffice "Office" <office> (gSF)
+Group gSF_Hallway "Second Floor Hallway" <corridor> (gSF)
+Group gObservatory "Observatory" <attic> (gSF)
+
+//Active Groups
+Group:Switch:OR(ON, OFF) 		gLights 		"All Lights [(%d)]" 	(gAll)
+
+
+Switch Hue_Toggle_1 "Garage Entrance" (gLights, gGF_Hallway) {hue="1"}
+Switch Hue_Toggle_2 "Bedroom Ceiling Fan Light" (gLights, gBedroom) {hue="2"}
+Switch Hue_Toggle_3 "Family Room" (gLights, gFamilyRoom) {hue="3"}
+Switch Hue_Toggle_4 "Office" (gLights, gOffice) {hue="4"}
+Switch Hue_Toggle_5 "Observatory" (gLights, gObservatory) {hue="5"}
+Switch Hue_Toggle_6 "Laundry Room" (gLights, gLaundryRoom) {hue="6"}
+Switch WifiPlug1 "Living Room" (gLights, gLivingRoom) { http=">[ON:GET:http://10.168.1.15/cgi-bin/relay.cgi?on] >[OFF:GET:http://10.168.1.15/cgi-bin/relay.cgi?off]" }
+
+Dimmer Hue_Dimm_1 "Brightness" (gLights, gGF_Hallway) {hue="1;brightness;30"}
+Dimmer Hue_Dimm_2 "Brightness" (gLights, gBedroom) {hue="2;brightness;30"}
+Dimmer Hue_Dimm_3 "Brightness" (gLights, gFamilyRoom) {hue="3;brightness;30"}
+Dimmer Hue_Dimm_4 "Brightness" (gLights, gOffice) {hue="4;brightness;30"}
+Dimmer Hue_Dimm_5 "Brightness" (gLights, gObservatory) {hue="5;brightness;30"}
+Dimmer Hue_Dimm_6 "Brightness" (gLights, gLaundryRoom) {hue="6;brightness;30"}

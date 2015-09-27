@@ -1,0 +1,33 @@
+//Script for work day alarm, turns on lights at specified time, leaves on for twenty minutes.
+//Turns on news in bedroom TV after I return from gym
+
+//0500
+//Bedroom Light
+sendCommand(Hue_Toggle_2, ON)
+sendCommand(Hue_Dimm_2, 50)
+//Garage Entrance Light
+sendCommand(Hue_Toggle_1, ON)
+sendCommand(Hue_Dimm_1, 100)
+
+createTimer(now.plusMinutes(20)) [|
+    //0520
+    sendCommand(Hue_Toggle_2, OFF)
+    sendCommand(Hue_Toggle_1, OFF)
+    ]
+
+createTimer(now.plusMinutes(105)) [|
+	//0645
+	sendCommand(kodiBedRoomTv_PVR, "WTTEDT (WTTE-DT)")
+	]	
+
+createTimer(now.plusMinutes(150)) [|
+	//0730
+	sendCommand(kodiBedRoomTv_Stop,"")
+	]
+createTimer(now.plusMinutes(195)) [|
+	//0745
+	sendCommand(kodiBedRoomTv_Stop,"")
+	sendCommand(gLights, OFF)
+	]
+
+	

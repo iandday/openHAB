@@ -1,0 +1,22 @@
+Group gTemp  (gAll)
+Group gMotion  (gAll)
+Group gSketch (gAll)
+
+
+
+ Number laundryMot "Laundry Room Motion[MAP(motion.map):%d]"    (gMotion,gLaundryRoom)  {mqtt="<[mysensor:MyMQTT/20/1/V_TRIPPED:state:default]"}
+ Number laundryTemp  "Laundry Room Temp [%.1f °F]"              (gTemp,gLaundryRoom)    {mqtt="<[mysensor:MyMQTT/20/2/V_TEMP:state:default]"}
+ Number laundryHum "Laundry Room Humidity [%.1f %%]"            (gTemp,gLaundryRoom)    {mqtt="<[mysensor:MyMQTT/20/3/V_HUM:state:default]"}
+ String sketchName1 "Laundry Room Sensor: [%s]"                 (gSketch,all)           {mqtt="<[mysensor:MyMQTT/20/255/V_SKETCH_NAME:state:default]"}
+
+ 
+  
+ Number bedroomMot "Bedroom Motion[MAP(motion.map):%d]"         (gMotion,gBedroom)      {mqtt="<[mysensor:MyMQTT/26/1/V_TRIPPED:state:default]"}
+ Number bedroomTemp  "Bedroom Temp [%.1f °F]"              (gTemp,gBedroom)        {mqtt="<[mysensor:MyMQTT/26/2/V_TEMP:state:default]"}
+ String sketchName2 "Bedroom Sensor: [%s]"                      (gSketch,all)           {mqtt="<[mysensor:MyMQTT/26/255/V_SKETCH_NAME:state:default]"}
+  
+  
+
+
+ 
+ 

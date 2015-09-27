@@ -1,0 +1,58 @@
+import org.openhab.core.library.types.*
+import org.openhab.model.script.actions.*
+
+//Motion Controlled Lights
+
+var Number lRCounter = 0
+var Number lRLastCheck = 0
+var Number BedCounter = 0
+var Number BedLastCheck = 0
+
+rule "Laundry Room Motion Light On"
+when
+	Item laundryMot changed from 0 to 1 
+then
+	lRCounter = lRCounter + 1
+	sendCommand(Hue_Toggle_6, ON)
+end
+rule "Laundry Room Motion Light Off"
+when
+	Time cron "0 * * * * ?"
+then
+       if(lRLastCheck == lRCounter) {
+                    lRCounter = 0
+                    lRLastCheck = -1;
+                    if (laundryMot == 0 && Hue_Toggle_6.state == ON){
+                    sendCommand(Hue_Toggle_6, OFF)}} 
+       else {
+                    lRLastCheck = lRCounter
+            }
+end
+
+    
+
+
+rule "Bedroom Motion Light On"
+when
+	Item bedroomMot changed from 0 to 1 
+then
+	BedCounter = BedCounter + 1
+	sendCommand(Hue_Toggle_2, ON)
+end
+rule "Bedroom Motion Light Off"
+when
+	Time cron "0 * * * * ?"
+then
+       if(BedLastCheck == BedCounter) {
+                    BedCounter = 0
+                    BedLastCheck = -1;
+                    if (bedroomMot == 0 ){ 
+                    	if (Hue_Toggle_2.state == ON){
+                              sendCommand(Hue_Toggle_2, OFF)}
+                              } 
+                         }
+       else {
+                    BedLastCheck = BedCounter
+            }
+end
+    
