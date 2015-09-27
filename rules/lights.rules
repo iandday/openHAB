@@ -22,7 +22,7 @@ then
        if(lRLastCheck == lRCounter) {
                     lRCounter = 0
                     lRLastCheck = -1;
-                    if (laundryMot == 0 && Hue_Toggle_6.state == ON){
+                    if (Hue_Toggle_6.state == ON && laundryMot.state == 0){
                     sendCommand(Hue_Toggle_6, OFF)}} 
        else {
                     lRLastCheck = lRCounter
@@ -32,27 +32,24 @@ end
     
 
 
-rule "Bedroom Motion Light On"
-when
-	Item bedroomMot changed from 0 to 1 
-then
-	BedCounter = BedCounter + 1
-	sendCommand(Hue_Toggle_2, ON)
-end
-rule "Bedroom Motion Light Off"
-when
-	Time cron "0 * * * * ?"
-then
-       if(BedLastCheck == BedCounter) {
-                    BedCounter = 0
-                    BedLastCheck = -1;
-                    if (bedroomMot == 0 ){ 
-                    	if (Hue_Toggle_2.state == ON){
-                              sendCommand(Hue_Toggle_2, OFF)}
-                              } 
-                         }
-       else {
-                    BedLastCheck = BedCounter
-            }
-end
+//rule "Bedroom Motion Light On"
+//when
+//	Item bedroomMot changed from 0 to 1 
+//then
+//	BedCounter = BedCounter + 1
+//	sendCommand(Hue_Toggle_2, ON)
+//end
+//rule "Bedroom Motion Light Off"
+//when
+//	Time cron "0 * * * * ?"
+//then
+//       if(BedLastCheck == BedCounter) {
+//                    BedCounter = 0
+//                    BedLastCheck = -1;
+//                    if (Hue_Toggle_2.state == ON && bedroomMot.state == 0){
+//                    	sendCommand(Hue_Toggle_2, OFF)}}   
+//       else {
+//                    BedLastCheck = BedCounter
+//            }
+//end
     
