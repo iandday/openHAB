@@ -12,59 +12,43 @@ sitemap default label="Home Control" {
 		Slider item=Hue_Dimm_5 visibility=[Hue_Toggle_5==ON]
 		Switch item=Hue_Toggle_6 label="Laundry Room"
 		Slider item=Hue_Dimm_6 visibility=[Hue_Toggle_6==ON]
+		Switch item=Hue_Toggle_7 label="Second Floor Hallway"
+		Slider item=Hue_Dimm_7 visibility=[Hue_Toggle_7==ON]
 		Switch item=WifiPlug1 label="Living Room"
+		
 	}
 	
-	Frame label="TV"{	
-		Switch item=Harmony_Activity label="Bedroom TV" icon="television" mappings=[PowerOff='Power Off', BedroomTV='Power On']
-		Switch item=kodiBedRoomTv
-		//Switch item=ActivateBedRoomTv
-		//Text item=kodiBedRoomTv_State label="State [%s]"
- 		Text item=kodiBedRoomTv_Title label="Title [%s]" visibility=[kodiBedRoomTv_State==Play, kodiBedRoomTv_State==Pause]
-		//Text item=kodiBedRoomTv_ShowTitle label="Show [%s]" visibility=[kodiBedRoomTv_State==Play, kodiBedRoomTv_State==Pause]
+	Frame label="Bedroom TV"{	
+		Switch item=harmonyBedroomActivity label="Mode" icon="television" mappings=[PowerOff='Off', BedroomTV='TV']
+		Text item=kodiBedRoomTv_Title label="Title [%s]" visibility=[kodiBedRoomTv_State==Play, kodiBedRoomTv_State==Pause]
 		Switch item=kodiBedRoomTv_PlayPause label="Play" icon="play" mappings=[ON="Play"] visibility=[kodiBedRoomTv_State==Pause]	
 		Switch item=kodiBedRoomTv_PlayPause label="Pause" icon="pause" mappings=[ON="Pause"] visibility=[kodiBedRoomTv_State==Play]
-		Switch item=kodiBedRoomTv_Stop label="Stop" mappings=[ON="Stop"] visibility=[kodiBedRoomTv_State==Play, kodiBedRoomTv_State==Pause]
- 		
- 		}
-
- Frame label="Sensors" {
-   Group item=gTemp icon="temperature" label="Temperature Sensors"
-   Group item=gMotion icon="network" label="Motion Sensors"
-   Group item=gSketch icon="info" label="Sketches" 
+		Switch item=kodiBedRoomTv_StopInput label="Stop" icon="stop" visibility=[kodiBedRoomTv_State==Play, kodiBedRoomTv_State==Pause] 		
+ 		Switch item=BedroomTvSleep visibility=[kodiBedRoomTv_State==Play, kodiBedRoomTv_State==Pause]
+ 		Switch item=kodiBedRoomTv
+		}
+	Frame label="Living Room TV"{	
+		Switch item=harmonyLivingRoomActivity label="Mode" icon="television" mappings=[PowerOff='Off', WatchTV='TV', 17923212='DVD']
+		}
+	Frame label="Weather" {
+   		Group item=gWeatherCurrent icon="temperature-max" label="Current Forecast"
+   		Group item=gWeatherFuture icon="sun_clouds" label="Future Forecast"
+   		Group item=gSun icon="sun_clouds" label="Sunrise/Sunset" 
+	 	}
+ 	Frame label="System" {
+   		Group item=gTemp icon="temperature" label="Temperature Sensors"
+   		Group item=gMotion icon="network" label="Motion Sensors"
+   		Group item=gSketch icon="info" label="Sketches" 
+   		Group item=gPresence icon="network" label="Presence Items"
   // Text item=laundryMot label="Laundry Room Motion[MAP(motion.map):%d]"
   // Text item=laundryTemp label="Laundry Room Temperature [%.1f °F]"
- }
+ 		}
 
- Frame label="System" {
-
-        Text label="Alarm Clock [%s]" item=alarmTimeMessage icon="clock" {
-            Frame label="Time" {
-                Setpoint item=alarmSecond minValue=0 maxValue=23 step=1
-                Setpoint item=alarmMinutes minValue=0 maxValue=55 step=5
-            }
-            Frame label="Repeat" {
-                Switch item=alarmMonday
-                Switch item=alarmTuesday
-                Switch item=alarmWednesday
-                Switch item=alarmThursday
-                Switch item=alarmFriday
-                Switch item=alarmSaturday
-                Switch item=alarmSunday
-            }
-        }
-	}
-Frame label="Individual Rooms"{
+	Frame label="Groups"{
 		Group item=gGF label="Ground Floor" icon="groundfloor"
 		Group item=gSF label="Second Floor" icon="firstfloor"
-	}
-	
-Frame label="Whole House Control"{
 		Text label="Group Control" icon="house"{
 			Switch item=gLights mappings=[OFF="All Off"]
-				}
-			}
-
+		}
+	}
 }
-
-

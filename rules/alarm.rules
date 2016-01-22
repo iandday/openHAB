@@ -1,0 +1,32 @@
+import org.openhab.core.library.types.*
+import org.openhab.core.persistence.*
+import org.openhab.model.script.actions.*
+import org.openhab.action.harmonyhub.*
+import java.util.concurrent.locks.ReentrantLock
+import org.openhab.model.script.actions.Timer
+
+
+rule "Weekday Workout Alarm Clock"
+when
+        Item alarmClock received command ON
+then
+ logInfo("PERSONAL", "Ian's Alarm Clock")
+sendCommand(harmonyBedroomActivity,"PowerOff")
+sendCommand(Hue_Toggle_2, ON) //Bedroom Light
+sendCommand(Hue_Dimm_2, 50)
+sendCommand(Hue_Toggle_1, ON) //Garage Entrance Light
+sendCommand(Hue_Dimm_1, 100)
+sendCommand(harmonyBedroomActivity,"BedroomTV")
+sendCommand(kodiBedRoomTv_Play, "http://10.168.1.4/U571.mpg")
+
+
+createTimer(now.plusMinutes(30)) [|  
+    sendCommand(gLights, OFF)
+    sendCommand(harmonyBedroomActivity,"PowerOff")
+    sendCommand(kodiBedRoomTv_Stop,"")
+    ]
+
+createTimer(now.plusMinutes(105)) [|  	
+	harmonyStartActivity("livingRoom","WatchTV")
+	]	
+end

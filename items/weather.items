@@ -1,0 +1,96 @@
+Group gWeather
+Group gWeatherCurrent (gWeather)
+Group gWeatherFuture (gWeather)
+Group gSun (gWeather)
+
+
+//Sunrise & Sunset Items
+Switch    sunRise       "Sunrise"                                           {astro="planet=sun, type=rise, property=start"}
+DateTime  sunRiseTime   "Sunrise [%1$tH:%1$tM]"     (gWeatherCurrent,gSun)  {astro="planet=sun, type=rise, property=start"}
+Switch    sunSet        "Sunset"                                            {astro="planet=sun, type=set, property=end"}
+DateTime  sunSetTime    "Sunset [%1$tH:%1$tM]"      (gWeatherCurrent,gSun)  {astro="planet=sun, type=set, property=end"}
+Switch    sunUp         "Sun Up"                    (gSun)
+
+//Current Conditions
+//    Temperature
+Number   temperature    "Temperature [%.2f °F]"      (gWeatherCurrent)      {weather="locationId=home, type=temperature, property=current, unit=fahrenheit"}
+Number   tempFeel       "Temperature feel [%.2f °F]" (gWeatherCurrent)      {weather="locationId=home, type=temperature, property=feel, unit=fahrenheit"}
+Number   tempDewpoint   "Dewpoint [%.2f °F]"         (gWeatherCurrent)      {weather="locationId=home, type=temperature, property=dewpoint, unit=fahrenheit"}
+Number   tempMin        "Low Temp [%.2f °F]"         (gWeatherCurrent)      {weather="locationId=home, forecast=0, type=temperature, property=min, unit=fahrenheit"}
+Number   tempMax        "High Temp [%.2f °F]"        (gWeatherCurrent)      {weather="locationId=home, forecast=0, type=temperature, property=max, unit=fahrenheit"}
+//    Atmosphere
+Number   humidity       "Humidity [%d %%]"           (gWeatherCurrent)      {weather="locationId=home, type=atmosphere, property=humidity"}
+Number   visibility     "Visibility [%.2f mi]"       (gWeatherCurrent)      {weather="locationId=home, type=atmosphere, property=visibility, unit=mph"}
+Number   pressureInches "Pressure [%.2f in]"         (gWeatherCurrent)      {weather="locationId=home, type=atmosphere, property=pressure, unit=inches"}
+String   pressureTrend  "Pressuretrend [%s]"         (gWeatherCurrent)      {weather="locationId=home, type=atmosphere, property=pressureTrend"}
+//Number   ozone          "Ozone [%d ppm]"             (gWeatherCurrent)      {weather="locationId=home, type=atmosphere, property=ozone"}
+Number   uvIndex        "UV Index"                   (gWeatherCurrent)      {weather="locationId=home, type=atmosphere, property=uvIndex, scale=0"}
+//    Clouds
+//Number   clouds         "Clouds [%.0f %%]"           (gWeatherCurrent)      {weather="locationId=home, type=clouds, property=percent"}
+//    Condition
+String   condition       "Condition [%s]"            (gWeatherCurrent)      {weather="locationId=home, type=condition, property=text"}
+DateTime lastUpdate      "Last update [%1$td.%1$tm.%1$tY %1$tH:%1$tM]"    (gWeatherCurrent)    {weather="locationId=home, type=condition, property=lastUpdate"}
+//String   conditionID     "Condition id [%s]"                                {weather="locationId=home, type=condition, property=id"}
+DateTime observationTime "Observation time [%1$td.%1$tm.%1$tY %1$tH:%1$tM]" {weather="locationId=home, type=condition, property=observationTime"}
+String   commonID        "Common id [%s]"                                   {weather="locationId=home, type=condition, property=commonId"}
+//    Precipitation
+Number   rainInches     "Rain [%.2f in/h]"           (gWeatherCurrent)      {weather="locationId=home, forecast=0, type=precipitation, property=rain, unit=inches"}
+Number   snowInches     "Snow [%.2f in/h]"           (gWeatherCurrent)      {weather="locationId=home, forecast=0,  type=precipitation, property=snow, unit=inches"}
+Number   precipProb     "Precip probability [%d %%]" (gWeatherCurrent)      {weather="locationId=home, forecast=0, type=precipitation, property=probability"}
+//    Wind
+Number   windSpeed       "Windspeed [%.2f mph]"      (gWeatherCurrent)      {weather="locationId=home, type=wind, property=speed, unit=mph"}
+String   windDirection   "Wind direction [%s]"       (gWeatherCurrent)      {weather="locationId=home, type=wind, property=direction"}
+Number   windGust        "Wind gust [%.2f mph]"      (gWeatherCurrent)      {weather="locationId=home, type=wind, property=gust, unit=mph"}
+Number   windChill       "Wind chill [%.2f °F]"      (gWeatherCurrent)      {weather="locationId=home, type=wind, property=chill, unit=fahrenheit"}
+//Weather Station ID (only Wunderground and Hamweather), needs version 1.7 of the binding
+String   Station_Name      "Station Name [%s]"       (gWeatherCurrent)      {weather="locationId=home, type=station, property=name"}
+String   Station_Id        "Station Id [%s]"         (gWeatherCurrent)      {weather="locationId=home, type=station, property=id"}
+Number   Station_Latitude  "Station Latitude [%.6f]" (gWeatherCurrent)      {weather="locationId=home, type=station, property=latitude, scale=6"}
+Number   Station_Longitude "Station Longitude [%.6f]"(gWeatherCurrent)      {weather="locationId=home, type=station, property=longitude, scale=6"}
+
+
+//Future Day's High/Low Temp & Condition
+//  Concatenated forecast
+String forecast1  "[%s]" (gWeatherFuture)
+String forecast2  "[%s]" (gWeatherFuture)
+String forecast3  "[%s]" (gWeatherFuture)
+String forecast4  "[%s]" (gWeatherFuture)
+String forecast5  "[%s]" (gWeatherFuture)
+String forecast6  "[%s]" (gWeatherFuture)
+String forecast7  "[%s]" (gWeatherFuture)
+String forecast8  "[%s]" (gWeatherFuture)
+String forecast9  "[%s]" (gWeatherFuture)
+//  Forecast low temp
+Number   tempMin1       "[%.0f °F]"  {weather="locationId=home, forecast=1, type=temperature, property=min, unit=fahrenheit"}
+Number   tempMin2       "[%.0f °F]"  {weather="locationId=home, forecast=2, type=temperature, property=min, unit=fahrenheit"}
+Number   tempMin3       "[%.0f °F]"  {weather="locationId=home, forecast=3, type=temperature, property=min, unit=fahrenheit"}
+Number   tempMin4       "[%.0f °F]"  {weather="locationId=home, forecast=4, type=temperature, property=min, unit=fahrenheit"}
+Number   tempMin5       "[%.0f °F]"  {weather="locationId=home, forecast=5, type=temperature, property=min, unit=fahrenheit"}
+Number   tempMin6       "[%.0f °F]"  {weather="locationId=home, forecast=6, type=temperature, property=min, unit=fahrenheit"}
+Number   tempMin7       "[%.0f °F]"  {weather="locationId=home, forecast=7, type=temperature, property=min, unit=fahrenheit"}
+Number   tempMin8       "[%.0f °F]"  {weather="locationId=home, forecast=8, type=temperature, property=min, unit=fahrenheit"}
+Number   tempMin9       "[%.0f °F]"  {weather="locationId=home, forecast=9, type=temperature, property=min, unit=fahrenheit"}
+//  Forecast high temp
+Number   tempMax1       "[%.0f °F]"  {weather="locationId=home, forecast=1, type=temperature, property=max, unit=fahrenheit"}
+Number   tempMax2       "[%.0f °F]"  {weather="locationId=home, forecast=2, type=temperature, property=max, unit=fahrenheit"}
+Number   tempMax3       "[%.0f °F]"  {weather="locationId=home, forecast=3, type=temperature, property=max, unit=fahrenheit"}
+Number   tempMax4       "[%.0f °F]"  {weather="locationId=home, forecast=4, type=temperature, property=max, unit=fahrenheit"}
+Number   tempMax5       "[%.0f °F]"  {weather="locationId=home, forecast=5, type=temperature, property=max, unit=fahrenheit"}
+Number   tempMax6       "[%.0f °F]"  {weather="locationId=home, forecast=6, type=temperature, property=max, unit=fahrenheit"}
+Number   tempMax7       "[%.0f °F]"  {weather="locationId=home, forecast=7, type=temperature, property=max, unit=fahrenheit"}
+Number   tempMax8       "[%.0f °F]"  {weather="locationId=home, forecast=8, type=temperature, property=max, unit=fahrenheit"}
+Number   tempMax9       "[%.0f °F]"  {weather="locationId=home, forecast=9, type=temperature, property=max, unit=fahrenheit"}
+//  Forecast condition
+String   condition1        "[%s]"    {weather="locationId=home, type=condition, forecast=1, property=text"}
+String   condition2        "[%s]"    {weather="locationId=home, type=condition, forecast=2, property=text"}
+String   condition3        "[%s]"    {weather="locationId=home, type=condition, forecast=3, property=text"}
+String   condition4        "[%s]"    {weather="locationId=home, type=condition, forecast=4, property=text"}
+String   condition5        "[%s]"    {weather="locationId=home, type=condition, forecast=5, property=text"}
+String   condition6        "[%s]"    {weather="locationId=home, type=condition, forecast=6, property=text"}
+String   condition7        "[%s]"    {weather="locationId=home, type=condition, forecast=7, property=text"}
+String   condition8        "[%s]"    {weather="locationId=home, type=condition, forecast=8, property=text"}
+String   condition9        "[%s]"    {weather="locationId=home, type=condition, forecast=9, property=text"}
+
+
+
+

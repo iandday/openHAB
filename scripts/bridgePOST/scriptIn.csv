@@ -1,0 +1,12 @@
+name,item
+All Lights,gLights
+Downstairs Light,Hue_Toggle_1
+Bedroom Light,Hue_Toggle_2
+Family Room Light,Switch Hue_Toggle_3
+Office Light,Switch Hue_Toggle_4
+Observatory Light,Hue_Toggle_5
+Upstairs Light,Hue_Toggle_7
+Bedroom TV,kodiBedRoomTv
+Bedroom TV Sleep,BedroomTvSleep
+Living Room TV Cable,harmonyLivingRoomTvCable
+Living Room TV Blueray,harmonyLivingRoomTvCable

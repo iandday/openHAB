@@ -1,16 +1,7 @@
 //Alarm Function
-Group gWeekdayAlarms (gAll)
-Group gAlarmTime (gAll)
+Group gAlarms
 
-Switch  alarmMonday     "Monday"     <switch>  (gWeekdayAlarms) 
-Switch  alarmTuesday   "Tuesday"   <switch>  (gWeekdayAlarms) 
-Switch  alarmWednesday   "Wednesday"   <switch>  (gWeekdayAlarms) 
-Switch  alarmThursday "Thursday" <switch>  (gWeekdayAlarms) 
-Switch  alarmFriday    "Friday"    <switch>  (gWeekdayAlarms) 
-Switch  alarmSaturday   "Saturday"    <switch>  (gWeekdayAlarms) 
-Switch  alarmSunday    "Sunday"    <switch>  (gWeekdayAlarms) 
 
-String alarmTimeMessage "%s"
 
-Number alarmSecond "Hour [%d]" <clock> (gAlarmTime)
-Number alarmMinutes "Minute [%d]" <clock> (gAlarmTime)
+
+Switch alarmClock "alarmClock"  (gAlarms) {autoupdate="false"}

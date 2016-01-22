@@ -1,0 +1,93 @@
+import org.openhab.core.library.types.*
+import org.openhab.core.persistence.*
+import org.openhab.model.script.actions.*
+import org.openhab.action.harmonyhub.*
+import java.util.concurrent.locks.ReentrantLock
+import org.openhab.model.script.actions.Timer
+
+var Timer timer
+  
+rule "BedRoomKodiOFF"
+when
+	Item kodiBedRoomTv changed to OFF
+then
+	executeCommandLine("python2.7 /etc/openhab/configurations/scripts/kodi/kodiPvrStop.py 10.168.1.50 8080 xbmc xbmc") 
+	if (harmonyBedroomActivity.state=="BedroomTV")
+	{
+		 harmonyStartActivity("bedroom","PowerOff")
+	}
+end
+
+rule "BedRoomKodiON"
+when
+	Item kodiBedRoomTv changed to ON
+then
+	if (harmonyBedroomActivity.state=="PowerOff")
+	{
+		 harmonyStartActivity("bedroom","BedroomTV")
+	}
+	sendCommand(kodiBedRoomTv_PVR, "WTTEDT (WTTE-DT)")
+end
+
+rule "BedroomTvSleep"
+when
+	Item BedroomTvSleep changed from OFF to ON
+then
+	timer = createTimer(now.plusMinutes(45)) [| 
+		executeCommandLine("python2.7 /etc/openhab/configurations/scripts/kodi/kodiPvrStop.py 10.168.1.50 8080 xbmc xbmc") 
+		harmonyStartActivity("bedroom","PowerOff")
+		sendCommand(kodiBedRoomTv_Stop,"")
+		if (kodiBedRoomTv.state==ON)
+			{kodiBedRoomTv.state=OFF}
+		BedroomTvSleep.state=OFF
+	]	
+end
+
+rule "BedroomKodiStop"
+when
+	Item kodiBedRoomTv_StopInput changed to ON
+then
+	executeCommandLine("python2.7 /etc/openhab/configurations/scripts/kodi/kodiPvrStop.py 10.168.1.50 8080 xbmc xbmc") 
+	sendCommand(kodiBedRoomTv_Stop,"")	
+	kodiBedRoomTv_StopInput.state=OFF	
+end	
+
+rule "Living Room TV - Cable"
+when
+	Item harmonyLivingRoomTvCable changed
+then
+	if (harmonyLivingRoomTvCable.state==ON)
+		{
+			if (harmonyLivingRoomActivity.state=="PowerOff")
+			{
+				 harmonyStartActivity("livingRoom","WatchTV")
+			}
+		}
+	if (harmonyLivingRoomTvCable.state==OFF)
+			{
+				if (harmonyLivingRoomActivity.state=="WatchTV")
+				{
+					 harmonyStartActivity("livingRoom","PowerOff")
+				}
+			}
+end
+
+rule "Living Room TV - Blueray"
+when
+	Item harmonyLivingRoomTVBlueray changed
+then
+	if (harmonyLivingRoomTVBlueray.state==ON)
+		{
+			if (harmonyLivingRoomActivity.state=="PowerOff")
+			{
+				 harmonyStartActivity("livingRoom","Watch A Movie")
+			}
+		}
+	if (harmonyLivingRoomTVBlueray.state==OFF)
+			{
+				if (harmonyLivingRoomActivity.state=="Watch A Movie")
+				{
+					 harmonyStartActivity("livingRoom","PowerOff")
+				}
+			}
+end

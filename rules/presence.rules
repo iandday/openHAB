@@ -1,0 +1,24 @@
+import org.openhab.core.library.types.*
+import org.openhab.model.script.actions.*
+import org.openhab.core.types.*
+
+rule "Interior lights on when I arrive home and the sun is down"
+when
+	Item gPresenceIan changed
+then
+	if(gPresenceIan.state == ON)
+		if (sunUp.state == OFF && gPresenceLights.state == OFF) 
+			gPresenceLights.sendCommand(ON)
+end
+	
+rule "Shut down house when no-one is home"
+when
+	Item gPresenceIan changed
+then	
+	if(gPresenceIan.state == OFF)
+		gLights.sendCommand(OFF)
+		sendCommand(kodiBedRoomTv_Stop,"")
+		executeCommandLine("python /etc/openhab/configurations/scripts/kodiPvrStop.py")
+		gHarmony?.members.forEach(item | item.sendCommand("PowerOff"))
+end
+

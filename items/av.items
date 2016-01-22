@@ -1,15 +1,26 @@
-//Kodi - Bedroom
-Switch    kodiBedRoomTv            "Bedroom TV - Fox HD"  <television> (gBedroom)
-String    kodiBedRoomTv_Stop       "Stop [%s]"                { xbmc=">[#bedroom|Player.Stop]" }
-String    kodiBedRoomTv_PVR        "Tune to Channel [%s]"     { xbmc=">[#bedroom|PVR.OpenTV]" }
-String    kodiBedRoomTv_State      "Bedroom State [%s]"       { xbmc="<[#bedroom|Player.State]" }
-String    kodiBedRoomTv_Title      "Bedroom Title [%s]"       { xbmc="<[#bedroom|Player.Title]" }
-Switch    kodiBedRoomTv_PlayPause  "Bedroom Play/Pause"       { xbmc=">[#bedroom|Player.PlayPause]", autoupdate="false" }
-Switch    kodiBedRoomTv_Stop1      "Bedroom Stop"             { xbmc=">[#bedroom|Player.Stop]", autoupdate="false" }
-String    kodiBedRoomTv_Notify     "Bedroom Notify [%s]"      { xbmc="<[#bedroom|GUI.ShowNotification]", autoupdate="false" }
+Group gHarmony
+
+//Bedroom TV
+Switch    kodiBedRoomTv              "Bedroom TV - Fox HD"   <television>  (gBedroom)
+Switch    BedroomTvSleep             "Bedroom TV Sleep"      <television>  (gBedroom)
+
+String    kodiBedRoomTv_PVR          "Tune to Channel [%s]"                (gBedroom)  { xbmc=">[#bedroom|PVR.OpenTV]" }
+String    kodiBedRoomTv_Play         "Play Media[%s]"                      (gBedroom)  { xbmc=">[#bedroom|Player.Open]" }
+
+String    kodiBedRoomTv_State        "Bedroom State [%s]"                  (gBedroom)  { xbmc="<[#bedroom|Player.State]" }
+String    kodiBedRoomTv_Title        "Bedroom Title [%s]"                  (gBedroom)  { xbmc="<[#bedroom|Player.Title]" }
+String    kodiBedRoomTv_Type         "Bedroom Type [%s]"                   (gBedroom)  { xbmc="<[#bedroom|Player.Type]" }
+
+Switch    kodiBedRoomTv_PvrStop      "LiveTV Stop"                         (gBedroom)  { exec="ON:python /etc/openhab/configurations/scripts/kodiPvrStop.py", autoupdate="false" }
+Switch    kodiBedRoomTv_Stop         "Stop"                                (gBedroom)  { xbmc=">[#bedroom|Player.Stop]"}
+Switch    kodiBedRoomTv_StopInput    "Stop"                    
+Switch    kodiBedRoomTv_PlayPause    "Bedroom Play/Pause"                  (gBedroom)  { xbmc=">[#bedroom|Player.PlayPause]", autoupdate="false" }
+String    kodiBedRoomTv_Notify       "Bedroom Notify [%s]"                 (gBedroom)  { xbmc="<[#bedroom|GUI.ShowNotification]", autoupdate="false" }
 
 
-Switch    ActivateBedRoomTv "Power On TV"  <television> { harmonyhub=">[start:BedroomTV]" }
-String    ActivateStringBedRoomTv    "Start" { harmonyhub=">[start:BedroomTV]" }
-String Harmony_Activity         "activity [%s]" { harmonyhub="*[currentActivity]" } 
+String    harmonyBedroomActivity     "Bedroom [%s]"                   (gBedroom,gHarmony)  { harmonyhub="*[bedroom:currentActivity]" } 
 
+
+Switch    harmonyLivingRoomTvCable    "Living Room TV-Cable" <television> (gLivingRoom)
+Switch    harmonyLivingRoomTVBlueray  "Living Room TV-Blueray" <television> (gLivingRoom)
+String    harmonyLivingRoomActivity   "Living Room [%s]"   (gLivingRoom,gHarmony) { harmonyhub="*[livingRoom:currentActivity]" } 

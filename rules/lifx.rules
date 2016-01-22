@@ -1,0 +1,24 @@
+import org.openhab.core.library.types.*
+
+
+var HSBType hsbValue
+var String  redValue
+var String  greenValue
+var String  blueValue
+var String command
+
+rule "Set RGB value"
+when
+        Item RGB changed
+then
+        hsbValue = RGB.state as HSBType
+
+        redValue   = hsbValue.red.intValue.toString
+        greenValue = hsbValue.green.intValue.toString
+        blueValue  = hsbValue.blue.intValue.toString
+         
+		command = "python2.7 /etc/openhab/configurations/scripts/lazylights/lifx_OpenHAB.py " + redValue + ',' + greenValue + ',' + blueValue
+         //command = "python2.7 /etc/openhab/configurations/scripts/lazylights/lifx_OpenHAB.py " + RGB.state as HSBType
+         logInfo( "FILE", command )       
+        executeCommandLine(command)
+end

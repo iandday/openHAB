@@ -5,8 +5,8 @@ import org.openhab.model.script.actions.*
 
 var Number lRCounter = 0
 var Number lRLastCheck = 0
-var Number BedCounter = 0
-var Number BedLastCheck = 0
+var Number observatoryCounter = 0
+var Number observatoryLastCheck = 0
 
 rule "Laundry Room Motion Light On"
 when
@@ -15,6 +15,7 @@ then
 	lRCounter = lRCounter + 1
 	sendCommand(Hue_Toggle_6, ON)
 end
+
 rule "Laundry Room Motion Light Off"
 when
 	Time cron "0 * * * * ?"
@@ -32,24 +33,25 @@ end
     
 
 
-//rule "Bedroom Motion Light On"
-//when
-//	Item bedroomMot changed from 0 to 1 
-//then
-//	BedCounter = BedCounter + 1
-//	sendCommand(Hue_Toggle_2, ON)
-//end
-//rule "Bedroom Motion Light Off"
-//when
-//	Time cron "0 * * * * ?"
-//then
-//       if(BedLastCheck == BedCounter) {
-//                    BedCounter = 0
-//                    BedLastCheck = -1;
-//                    if (Hue_Toggle_2.state == ON && bedroomMot.state == 0){
-//                    	sendCommand(Hue_Toggle_2, OFF)}}   
-//       else {
-//                    BedLastCheck = BedCounter
-//            }
-//end
+rule "Observatory Motion Light On When Sun is Down"
+when
+	Item observatoryMot changed from 0 to 1 
+then
+	if (sunUp.state == OFF) {
+	observatoryCounter = observatoryCounter + 1
+	sendCommand(Hue_Toggle_5, ON)}
+end
+rule "Observatory Room Motion Light Off"
+when
+	Time cron "0 * * * * ?"
+then
+       if(observatoryLastCheck == observatoryCounter) {
+                    observatoryCounter = 0
+                    observatoryLastCheck = -1;
+                    if (Hue_Toggle_5.state == ON && observatoryMot.state == 0){
+                    	sendCommand(Hue_Toggle_5, OFF)}}   
+       else {
+                    observatoryLastCheck = observatoryCounter
+            }
+end
     

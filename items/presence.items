@@ -1,0 +1,21 @@
+Group gPresence
+
+
+
+/* Ian */
+Group:Switch:OR(ON, OFF)        gPresenceIan  "Presence - Ian [(%d)]"         <boy5>         (gPresence)
+Switch          PresenceIan_Manual            "Ian (Manual)"                  <boy5>         (gPresenceIan)
+Switch          PresenceIan_PhoneWifi         "Ian's Phone (WIFI)"            <network>      (gPresenceIan)             { nh="10.168.1.123" }
+Switch          PresenceIan_PhoneMqtt         "Ian's Phone (GPS)"             <network>      (gPresenceIan)             {mqtt="<[mysensor:ian/android/s6:state:MAP(mqtt.map)]"}
+//Switch          PresenceIan_PhoneMqtt         "Ian's Phone (GPS)"             <network>      (gPresenceIan)             { mqttitude="mysensor:owntracks/ian/android" }
+//Switch          PresenceIan_PhoneMqtt         "Ian's Phone (GPS)"             <network>      (gPresenceIan)             { mqttitude="mysensor:owntracks/ian/android/event:home" }
+
+
+/* Renee */
+//Group:Switch:OR(ON, OFF)        PresenceRenee "Renee"                         <person>         (Presence)
+//Switch          PresenceRenee_Manual          "Renee (Manual)"                <person>         (PresenceRenee)
+//Switch          PresenceRenee_PhoneWifi       "Renee's Phone (WIFI)"          <cellphone>      (PresenceRenee)           { nh="192.168.1.61" }
+//Switch          PresenceRenee_PhoneMqtt       "Renee's Phone (GPS)"           <gps>            (PresenceRenee)           { mqttitude="mosquitto:/mqttitude/renee" }
+
+ // switch for determining if the house occupants are asleep
+Switch          Presence_Asleep               "Occupants Asleep"              <bedroom>        (gPresence)

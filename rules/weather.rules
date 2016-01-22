@@ -1,0 +1,93 @@
+import java.util.Date
+import java.util.Calendar
+import org.openhab.core.library.types.*
+import org.joda.time.* 
+
+rule "Sun Up"
+when
+	Item sunRise received update ON
+then
+	sunUp.state=ON
+end
+
+rule "Sun Down"
+when
+	Item sunSet received update ON
+then
+	sunUp.state=OFF
+end
+
+rule "Update Forecast Strings"
+when
+	Time cron "0 1 * * * ?"
+then
+    var Number day  = now.getDayOfWeek
+    var String dOW1 = "Monday"
+    var String dOW2 = "Tuesday"
+    var String dOW3 = "Wednesday"
+    var String dOW4 = "Thursday"
+    var String dOW5 = "Friday"
+    var String dOW6 = "Saturday"
+    var String dOW7 = "Sunday"
+    
+    //Monday
+    if (day == 1){dOW7 = "Monday"
+   	 			  dOW1 = "Tuesday"
+    			  dOW2 = "Wednesday"
+    			  dOW3 = "Thursday"
+    			  dOW4 = "Friday"
+    			  dOW5 = "Saturday"
+    			  dOW6 = "Sunday"  }
+    //Tuesday			  
+    if (day == 2){dOW6 = "Monday"
+   	 			  dOW7 = "Tuesday"
+    			  dOW1 = "Wednesday"
+    			  dOW2 = "Thursday"
+    			  dOW3 = "Friday"
+    			  dOW4 = "Saturday"
+    			  dOW5 = "Sunday"  }
+    //Wednesday			  
+    if (day == 3){dOW5 = "Monday"
+   	 			  dOW6 = "Tuesday"
+    			  dOW7 = "Wednesday"
+    			  dOW1 = "Thursday"
+    			  dOW2 = "Friday"
+    			  dOW3 = "Saturday"
+    			  dOW4 = "Sunday" }
+    //Thursday			  
+    if (day == 4){dOW4 = "Monday"
+   	 			  dOW5 = "Tuesday"
+    			  dOW6 = "Wednesday"
+    			  dOW7 = "Thursday"
+    			  dOW1 = "Friday"
+    			  dOW2 = "Saturday"
+    			  dOW3 = "Sunday" }
+    //Friday			  
+    if (day == 5){dOW3 = "Monday"
+   	 			  dOW4 = "Tuesday"
+    			  dOW5 = "Wednesday"
+    			  dOW6 = "Thursday"
+    			  dOW7 = "Friday"
+    			  dOW1 = "Saturday"
+    			  dOW2 = "Sunday" }
+     //Saturday
+    if (day == 6){dOW2 = "Monday"
+   	 			  dOW3 = "Tuesday"
+    			  dOW4 = "Wednesday"
+    			  dOW5 = "Thursday"
+    			  dOW6 = "Friday"
+    			  dOW7 = "Saturday"
+    			  dOW1 = "Sunday"  }
+    
+       
+    forecast1.postUpdate( dOW1 + " - " + condition1.state.toString + ", High: " + String::format("%.0f",(tempMax1.state as DecimalType).floatValue()) + " Low: " + String::format("%.0f",(tempMin1.state as DecimalType).floatValue()) )
+	forecast2.postUpdate( dOW2 + " - " + condition2.state.toString + ", High: " + String::format("%.0f",(tempMax2.state as DecimalType).floatValue()) + " Low: " + String::format("%.0f",(tempMin2.state as DecimalType).floatValue()) )
+	forecast3.postUpdate( dOW3 + " - " + condition3.state.toString + ", High: " + String::format("%.0f",(tempMax3.state as DecimalType).floatValue()) + " Low: " + String::format("%.0f",(tempMin3.state as DecimalType).floatValue()) )
+	forecast4.postUpdate( dOW4 + " - " + condition4.state.toString + ", High: " + String::format("%.0f",(tempMax4.state as DecimalType).floatValue()) + " Low: " + String::format("%.0f",(tempMin4.state as DecimalType).floatValue()) )
+	forecast5.postUpdate( dOW5 + " - " + condition5.state.toString + ", High: " + String::format("%.0f",(tempMax5.state as DecimalType).floatValue()) + " Low: " + String::format("%.0f",(tempMin5.state as DecimalType).floatValue()) )
+	forecast6.postUpdate( dOW6 + " - " + condition6.state.toString + ", High: " + String::format("%.0f",(tempMax6.state as DecimalType).floatValue()) + " Low: " + String::format("%.0f",(tempMin6.state as DecimalType).floatValue()) )
+	forecast7.postUpdate( dOW7 + " - " + condition7.state.toString + ", High: " + String::format("%.0f",(tempMax7.state as DecimalType).floatValue()) + " Low: " + String::format("%.0f",(tempMin7.state as DecimalType).floatValue()) )
+	forecast8.postUpdate( dOW1 + " - " + condition8.state.toString + ", High: " + String::format("%.0f",(tempMax8.state as DecimalType).floatValue()) + " Low: " + String::format("%.0f",(tempMin8.state as DecimalType).floatValue()) )
+	forecast9.postUpdate( dOW2 + " - " + condition9.state.toString + ", High: " + String::format("%.0f",(tempMax9.state as DecimalType).floatValue()) + " Low: " + String::format("%.0f",(tempMin9.state as DecimalType).floatValue()) ) 
+ end
+
